@@ -1,0 +1,18 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+font name: Bizon
+font link: https://www.dropbox.com/s/7i4p46rwct96846/Bizon-typeface.zip?dl=0
+font author: Fago Studio
+font author site: http://www.studiofago.com/
+
+
+icon designer: gayatri
+icon designer link: /gsnair88
+        
+
+fontColor: {"hex":"#FC0A07"}
+bgColor: {"hex":"transparent"}
+iconColor: {"hex":"#FC0A07"}
+
+      

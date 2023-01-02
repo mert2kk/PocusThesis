@@ -1,0 +1,44 @@
+:root{
+    --red:#f54e4e;
+    --green:#4aec8c;
+}
+.label{
+    display: block;
+    margin-bottom: 10px;
+    color:black ;
+}
+.slider-work{
+    height: 40px;
+    border: 2px solid var(--red);
+    border-radius: 20px;
+}
+.thumb-work {
+    background-color: var(--red);
+    cursor:pointer;
+    width:40px;
+    height:40px;
+    border-radius :20px;
+}
+.slider-break{
+    height: 40px;
+    border-radius: 20px;
+    border: 2px solid var(--green);
+
+}
+.thumb-break{
+    background-color: var(--green);
+    cursor:pointer;
+    width:40px;
+    height:40px;
+    border-radius :20px;
+}
+.back-button{
+    margin-top: 15px;    
+    border-radius: 10px;
+    padding: 10px 20px ;
+    font-size: 1.4rem;
+    line-height: 36px;
+    text-decoration: none;
+    display: flex;
+}
+
