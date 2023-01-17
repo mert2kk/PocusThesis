@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./App.css";
-import Footer from "./layout/Footer/Footer";
 import Navigation from "./layout/Navigation/Navigation";
 import { Route, Routes } from "react-router-dom";
 import Stats from "./Scenes/Stats/Stats";
@@ -55,7 +54,6 @@ import Login from "./Scenes/Login/Login";
               </Routes>
         </SettingsContext.Provider>
       </main>
-      <Footer/>
       </React.Fragment>
 
       

@@ -21,7 +21,7 @@ const Login = () => {
         {user
         
         ?<div>
-          <div ><img className="pp" src={user?.photoURL} onClick={linkWithPopup} alt="pp"></img></div>
+          <div ><img  className="pp" src={user?.photoURL} onClick={linkWithPopup} alt="pp"></img></div>
           <SignOut  onClick={()=> auth.signOut()}/>
 
         </div>

@@ -7,8 +7,9 @@ import SettingsButton from "./Components/SettingsButton";
 import { useContext, useState, useRef, useEffect} from "react";
 import SettingsContext from "../../Context/SettingsContext";
 import { db,auth } from '../../FirebaseConfig';
-import { query,collection,where,getDocs,updateDoc,doc } from 'firebase/firestore';
+import { collection,getDocs,updateDoc,doc,query,where, Firestore } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -22,6 +23,11 @@ const green ='#4aec8c';
 
  
 function Timer() {
+   const docRef= doc(db,'users/doc.id')
+   
+  const navigate = useNavigate();
+
+  
 
   
   const handlePause =()=> {
@@ -79,51 +85,66 @@ function Timer() {
      
   }
  
-  const [user, loading] = useAuthState(auth);
-  const [data,setData] = useState("")
 
 
- 
 
-  // const getStats = async () => {
-  //   const q = query(collection(db, "users"), where("uid", "==", user?.uid)); // if the uid in firebase is equal to the uid from auth
-  //   const doc = await getDocs(q);
-  //   const data = doc.docs[0].data();
-  //   setData(data.time)
-  //   updateDoc(q, data)
-  //  .then(q => {
-  //   console.log("A New Document Field has been added to an existing document");
-  //  })
-  // .catch(error => {
-  //    console.log(error);
-  //  })
-  // }
 
- 
+  const [user,loading] = useAuthState(auth);
+  
+  const [users,setUsers]=useState([])
   
 
 
-
-
-
+  // const[calculatedTime,setNewTime]= useState(0)
+ 
+  // console.log(user?.uid)
   useEffect(  () => {
 
-    const getStats = async () => {
-      const q = query(collection(db, "users"), where("uid", "==", user?.uid)); // if the uid in firebase is equal to the uid from auth
-        const doc = await getDocs(q);
-        const data = doc.docs[0].data();    
-        const calculatedTime={time}
-        updateDoc(q, calculatedTime)
-     .then(data => {
-      console.log(data)
-      console.log("A New Document Field has been added to an existing document");
-     })
-    .catch(error => {
-       console.log(error);
-     })
-    }
-    
+    const getUsers = async () => {
+      const usersCollectionRef = collection(db, "users")
+
+        const data = await getDocs(usersCollectionRef);
+        setUsers(data.docs.map((doc)=>({...doc.data(),id:doc.id}) ))
+
+        
+   }
+  //  getUsers()
+   console.log(users)
+  
+  //  const updateUser = async (id,time) => {
+  //    const userDoc = doc(db, 'users', user?.uid)
+  //    const newFields = {time:Number(time)}
+  //    await updateDoc(userDoc,newFields)
+  //    console.log(userDoc)
+
+ 
+  //  }
+ 
+
    
+    const updateUser = async (id,time) => {
+      try {
+        const userDoc = doc(db, 'users', user?.id)
+     const newFields = {time:Number(time)}
+     await updateDoc(userDoc,newFields)
+        
+  
+        
+        console.log(userDoc)
+  
+        
+        
+  
+        
+      } catch (err) {
+        console.error(err);
+        alert("An error occured while updating user data");
+      }
+    };
+    
+    updateUser(user?.id,user?.time)
+    console.log(user)
+
       
       secondsLeftRef.current = settingsInfo.workMinutes * 60;
       setSecondsLeft(secondsLeftRef.current);
@@ -157,22 +178,23 @@ function Timer() {
             round()
             setTime(settingsInfo.workMinutes*sessionRef.current)
             if(!user){
-              getStats()
-              // setStats()
+              getUsers()
+              // updateUser(user.id,user.time)
               }
           }
           return switchMode(); 
         }
   
         tick();
-      },10);
+      },100);
       
       
       
       return () => clearInterval(interval);
-    },[settingsInfo,user,time])
+    },[settingsInfo,time,user,loading,navigate])
   
-
+   
+    
   return (
     
     <div className="timer-all">
@@ -210,6 +232,8 @@ function Timer() {
       </div>
       <div>
         {time}
+        
+        
       </div>
         
         
@@ -221,32 +245,11 @@ function Timer() {
 export default Timer;
 
 
-// const setStats = async () => {
-//   try {
-    
-//     const q = query(collection(db, "users"), where("uid", "==", user?.uid)); // if the uid in firebase is equal to the uid from auth
-//     const doc = await getDocs(q);
-    
-//     function setStats(e){
-      
-//       const data = doc(db,'users', user?.uid)
-//       updateDoc(data,{
-//         time:10,
-        
-//       } ).then(response => {
-//         alert("updated")
-//       }).catch(error =>{
-//         console.log(error.message)
-//       })}
-    
-    
-
-    
-//     setStats()
-
-    
-//   } catch (err) {
-//     console.error(err);
-//     alert("An error occured while fetching user data");
-//   }
-// };
+// updateDoc(q, calculatedTime)
+//      .then(data => {
+//       console.log(data)
+//       console.log("A New Document Field has been added to an existing document");
+//      })
+//     .catch(error => {
+//        console.log(error);
+//      })

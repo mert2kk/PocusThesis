@@ -13,30 +13,31 @@ function Stats() {
   const navigate = useNavigate();
   
 
-  const fetchData = async () => {
-    try {
-      const q = query(collection(db, "users"), where("uid", "==", user?.uid)); // if the uid in firebase is equal to the uid from auth
-      const doc = await getDocs(q);
-      const data = doc.docs[0].data();
-      
-
-      
-      console.log(doc)
-      setData(data)
-      console.log(data)
-
-      
-      
-
-      
-    } catch (err) {
-      console.error(err);
-      alert("An error occured while fetching user data");
-    }
-  };
+  
 
   
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const q = query(collection(db, "users"), where("uid", "==", user?.uid)); // if the uid in firebase is equal to the uid from auth
+        const doc = await getDocs(q);
+        const data = doc.docs[0].data();
+        
+  
+        
+        console.log(doc)
+        setData(data)
+        console.log(data)
+  
+        
+        
+  
+        
+      } catch (err) {
+        console.error(err);
+        alert("An error occured while fetching user data");
+      }
+    };
     if (loading) return;
     if (!user) return navigate();
 
@@ -45,7 +46,6 @@ function Stats() {
       
     
     
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, loading,navigate]);
 
   return (
@@ -57,15 +57,22 @@ function Stats() {
           <div>{user?.email}</div>
           <div>
             
-            {data.name}
+            
             {user 
-            ?             <img src={user?.photoURL} alt="pp"></img>
+            ?<div>             
+                <div>
+                    <img src={user?.photoURL} alt="pp"></img>
+                </div>
+                <div>
+                    <SignOut   onClick={()=> auth.signOut()}/>
+                </div>
+                <div>{data.time}</div>
+              </div>
             :
             <div></div>}
           </div>
-          <div>{data.time}</div>
-          <div>
-          <SignOut   onClick={()=> auth.signOut()}/></div>
+          
+          
         </div>
       </div>
   );
