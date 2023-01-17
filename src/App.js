@@ -8,11 +8,16 @@ import Timer from "./Scenes/Timer/Timer";
 import Settings from "./Scenes/Settings/Settings";
 import Page404 from "./Scenes/Page404/Page404";
 import SettingsContext from "./Context/SettingsContext";
+import Login from "./Scenes/Login/Login";
+
+
 
  function App() {
       const [showSettings,setShowSettings]=useState(false);
       const [workMinutes,setWorkMinutes]=useState(1);
       const [breakMinutes,setBreakMinutes]=useState(1);
+      const [sessions,setSessions]=useState(3)
+      
 
     return (
         
@@ -26,6 +31,9 @@ import SettingsContext from "./Context/SettingsContext";
           setWorkMinutes,
           breakMinutes,
           setBreakMinutes,
+          sessions,
+          setSessions
+         
           
           
           
@@ -38,11 +46,13 @@ import SettingsContext from "./Context/SettingsContext";
               <Routes>
                 <Route exact path="/" element={<Timer />} />
                 <Route exact path="/Timer" element={<Timer />} />
-                <Route exact path="/Stats" element={<Stats />} />
+                <Route exact path="/Stats" element={<Stats/>} />
                 <Route exact path="/Settings" element={<Settings />} />
+                <Route exact path="/Login" element={<Login />} />
+
+                
                 <Route element={<Page404 />} />
               </Routes>
-          {/* {showSettings ? <Settings /> : <Timer />} */}
         </SettingsContext.Provider>
       </main>
       <Footer/>

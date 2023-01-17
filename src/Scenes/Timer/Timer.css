@@ -42,3 +42,12 @@ display: flex;
     display: inline-grid;
     justify-items: center;
 }
+.mode{
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+
+}
+.session{
+    font-size: 0.8rem;
+    font-family: ui-serif;
+}

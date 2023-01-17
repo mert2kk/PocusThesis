@@ -1,0 +1,14 @@
+.stats{
+    height: 6.5rem;
+    width: 14rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.stats-user{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: #dcdcdc;
+    padding: 30px;
+}

@@ -39,6 +39,16 @@ function Settings() {
         min={1}
         max={120}
         />
+        <label>Session:{settingsInfo.sessions}  </label>
+        <ReactSlider 
+        className='slider-work'
+        thumbClassName='thumb-work'
+        trackClassName='track'
+        value={settingsInfo.sessions}
+        onChange={newValue => settingsInfo.setSessions(newValue)}
+        min={1}
+        max={12}
+        />
         <div>
           <BackButton className='back-button' to='/Timer' />
         </div>

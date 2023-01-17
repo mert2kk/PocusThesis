@@ -4,7 +4,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 98.5%;
     padding: 1em;
     background-color: #4b5663    ;
     border-bottom-style: solid;
@@ -57,7 +56,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
     padding: 15px;
     background-color: #030404    ;
     border-bottom-style: solid;
@@ -74,3 +72,4 @@
   .middle-items,dl,ol,ul{
     margin-bottom: 0.3rem ;
   }
+ 
