@@ -8,6 +8,7 @@ import Settings from "./Scenes/Settings/Settings";
 import Page404 from "./Scenes/Page404/Page404";
 import SettingsContext from "./Context/SettingsContext";
 import Login from "./Scenes/Login/Login";
+import Todos from "./Scenes/Todos/Todos";
 
 
 
@@ -48,6 +49,7 @@ import Login from "./Scenes/Login/Login";
                 <Route exact path="/Stats" element={<Stats/>} />
                 <Route exact path="/Settings" element={<Settings />} />
                 <Route exact path="/Login" element={<Login />} />
+                <Route exact path="/Todos" element={<Todos/>}/>
 
                 
                 <Route element={<Page404 />} />

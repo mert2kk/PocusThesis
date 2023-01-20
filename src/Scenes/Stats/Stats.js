@@ -13,20 +13,19 @@ function Stats() {
   const navigate = useNavigate();
   
 
-  
+  const[stats,setStats]=useState([])
 
   
   useEffect(() => {
-    const fetchData = async () => {
+    const getStats = async () => {
       try {
-        const q = query(collection(db, "users"), where("uid", "==", user?.uid)); // if the uid in firebase is equal to the uid from auth
-        const doc = await getDocs(q);
-        const data = doc.docs[0].data();
+        const q = query(collection(db, "stats"), where("uid", "==", user?.uid)); // if the uid in firebase is equal to the uid from auth
+        const docs = await getDocs(q);
+        const data = docs.docs[0];
         
   
         
-        console.log(doc)
-        setData(data)
+        setStats(data)
         console.log(data)
   
         
@@ -35,21 +34,23 @@ function Stats() {
         
       } catch (err) {
         console.error(err);
-        alert("An error occured while fetching user data");
+        alert("An error occured while getting user data");
       }
     };
     if (loading) return;
     if (!user) return navigate();
 
     
-       fetchData()
-      
+       getStats()
+
     
     
   }, [user, loading,navigate]);
 
   return (
 
+     
+      
      
       <div className="stats">
         <div className="stats-user">
@@ -66,7 +67,9 @@ function Stats() {
                 <div>
                     <SignOut   onClick={()=> auth.signOut()}/>
                 </div>
-                <div>{data.time}</div>
+                {/* <div>{stats?.worktime}</div> */}
+                  
+
               </div>
             :
             <div></div>}

@@ -7,7 +7,8 @@ import SettingsButton from "./Components/SettingsButton";
 import { useContext, useState, useRef, useEffect} from "react";
 import SettingsContext from "../../Context/SettingsContext";
 import { db,auth } from '../../FirebaseConfig';
-import { collection,getDocs,updateDoc,doc,query,where, Firestore } from 'firebase/firestore';
+import { collection,getDocs,updateDoc,doc,query,where,  onSnapshot,
+} from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,15 +22,13 @@ const green ='#4aec8c';
 
 
 
+
  
 function Timer() {
-   const docRef= doc(db,'users/doc.id')
+   
    
   const navigate = useNavigate();
 
-  
-
-  
   const handlePause =()=> {
     setIsPaused(true); 
     isPausedRef.current = true; 
@@ -90,60 +89,71 @@ function Timer() {
 
 
   const [user,loading] = useAuthState(auth);
-  
   const [users,setUsers]=useState([])
+
+
+useEffect(() => {
+    const q = query(collection(db, 'users'));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      let usersArr = [];
+      querySnapshot.forEach((doc) => {
+        usersArr.push({ ...doc.data(), id: doc.id });
+      });
+      setUsers(usersArr);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // console.log(users)
+
   
 
-
-  // const[calculatedTime,setNewTime]= useState(0)
- 
-  // console.log(user?.uid)
   useEffect(  () => {
-
-    const getUsers = async () => {
-      const usersCollectionRef = collection(db, "users")
-
-        const data = await getDocs(usersCollectionRef);
-        setUsers(data.docs.map((doc)=>({...doc.data(),id:doc.id}) ))
-
-        
-   }
-  //  getUsers()
-   console.log(users)
+  //   const getUsers = async () => {
+  //   const q = query(collection(db, 'users'));
+  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  //     let usersArr = [];
+  //     querySnapshot.forEach((doc) => {
+  //       usersArr.push({ ...doc.data(), id: doc.id });
+  //     });
+  //     setUsers(usersArr);
+  //   });
+  //   return () => unsubscribe();
+  // }
   
-  //  const updateUser = async (id,time) => {
-  //    const userDoc = doc(db, 'users', user?.uid)
-  //    const newFields = {time:Number(time)}
-  //    await updateDoc(userDoc,newFields)
-  //    console.log(userDoc)
 
- 
-  //  }
- 
 
-   
-    const updateUser = async (id,time) => {
-      try {
-        const userDoc = doc(db, 'users', user?.id)
-     const newFields = {time:Number(time)}
-     await updateDoc(userDoc,newFields)
-        
-  
-        
-        console.log(userDoc)
-  
-        
-        
-  
-        
-      } catch (err) {
-        console.error(err);
-        alert("An error occured while updating user data");
-      }
-    };
+  // const updateUser = async (user,time) => {
+  //   await updateDoc(doc(db, 'users', user.id), {
+  //     time: user.time,
+  //   });
+  // };
     
-    updateUser(user?.id,user?.time)
-    console.log(user)
+
+
+
+
+
+
+    // const updateUser = async (id,time) => {
+    //   try {
+    //  const userDoc = doc(db, 'users', user?.id)
+    //  const newFields = {
+
+    //   time:Number(time)
+    // }
+    //  await updateDoc(userDoc,newFields)
+        
+  
+      
+    //   } catch (err) {
+    //     console.error(err);
+    //     alert("An error occured while updating user data");
+    //   }
+    // };
+    
+    // updateUser(user.id,user.time)
+    // console.log(users)
 
       
       secondsLeftRef.current = settingsInfo.workMinutes * 60;
@@ -178,7 +188,9 @@ function Timer() {
             round()
             setTime(settingsInfo.workMinutes*sessionRef.current)
             if(!user){
-              getUsers()
+              
+              // getUsers()
+              // console.log(users)
               // updateUser(user.id,user.time)
               }
           }
@@ -191,7 +203,7 @@ function Timer() {
       
       
       return () => clearInterval(interval);
-    },[settingsInfo,time,user,loading,navigate])
+    },[settingsInfo,time,user,loading,navigate,users])
   
    
     
@@ -245,11 +257,3 @@ function Timer() {
 export default Timer;
 
 
-// updateDoc(q, calculatedTime)
-//      .then(data => {
-//       console.log(data)
-//       console.log("A New Document Field has been added to an existing document");
-//      })
-//     .catch(error => {
-//        console.log(error);
-//      })

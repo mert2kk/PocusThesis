@@ -52,9 +52,11 @@ const signInWithGoogle = async () => {
         name: user.displayName,
         authProvider: "google",
         email: user.email,
-        time:user.time
+        
       });
     }
+    // console.log(docs.docs.map((doc)=>({...doc.data(),id:doc.id})))
+    // console.log(docs.docs.map((doc)=>({...doc.data(),})))
   } catch (err) {
     console.error(err);
     alert(err.message);
